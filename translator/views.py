@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -13,14 +13,19 @@ def signup_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Auto-login after signup
+            login(request, user)
             return redirect('home')
         else:
             messages.error(request, "Signup failed. Please check your input.")
     else:
         form = UserCreationForm()
-    
-    return render(request, 'translator/auth.html', {'activate_signup': True})  # Adds sliding effect
+
+    return render(request, 'translator/auth.html', {
+        'form': form,
+        'activate_signup': True
+    })
+
+
 
 # Login View
 def login_view(request):
@@ -30,15 +35,16 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             return redirect('home')
-        else:
-            messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
 
-    return render(request, 'translator/auth.html')
+    return render(request, 'translator/auth.html', {
+        'form': form,
+        'activate_signup': False
+    })
 
-def redirect_home(request):
-    return redirect('home')  # ✅ Use correct URL name
+
+
 
 
 def hero_view(request):

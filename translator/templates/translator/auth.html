@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
     * { box-sizing: border-box; }
 
     body {
@@ -60,20 +59,8 @@
       color: #f8f8f2;
     }
 
-    .social-container {
-      margin: 20px 0;
-    }
-
-    .social-container a {
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 5px;
-      height: 40px;
-      width: 40px;
-      color: #00ffff;
+    .form-container form div {
+      width: 100%;
     }
 
     button {
@@ -193,36 +180,50 @@
     .container.right-panel-active .overlay-right {
       transform: translateX(20%);
     }
+
+    .error-message {
+      background: #ff4d4d;
+      padding: 8px 12px;
+      border-radius: 5px;
+      color: white;
+      margin-bottom: 12px;
+      font-size: 14px;
+      width: 100%;
+      text-align: left;
+    }
   </style>
 </head>
 <body>
 
-<div class="container" id="container">
-  <!-- Signup -->
+<div class="container {% if activate_signup %}right-panel-active{% endif %}" id="container">
+
+  <!-- 🔹 Sign-Up Panel -->
   <div class="form-container sign-up-container">
     <form method="post" action="{% url 'signup' %}">
       {% csrf_token %}
       <h1>Create Account</h1>
-      <input type="text" name="username" placeholder="Username" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="password" name="password1" placeholder="Password" required />
-      <input type="password" name="password2" placeholder="Confirm Password" required />
+      {% if form.errors and activate_signup %}
+        <div class="error-message">{{ form.errors }}</div>
+      {% endif %}
+      {{ form.as_p }}
       <button type="submit">Sign Up</button>
     </form>
   </div>
 
-  <!-- Login -->
+  <!-- 🔸 Sign-In Panel -->
   <div class="form-container sign-in-container">
     <form method="post" action="{% url 'login' %}">
       {% csrf_token %}
       <h1>Sign In</h1>
-      <input type="text" name="username" placeholder="Username" required />
-      <input type="password" name="password" placeholder="Password" required />
+      {% if form.errors and not activate_signup %}
+        <div class="error-message">{{ form.errors }}</div>
+      {% endif %}
+      {{ form.as_p }}
       <button type="submit">Sign In</button>
     </form>
   </div>
 
-  <!-- Overlay -->
+  <!-- 🧩 Overlay -->
   <div class="overlay-container">
     <div class="overlay">
       <div class="overlay-panel overlay-left">
@@ -244,13 +245,17 @@
   const signInButton = document.getElementById('signIn');
   const container = document.getElementById('container');
 
-  signUpButton.addEventListener('click', () => {
-    container.classList.add("right-panel-active");
-  });
+  if (signUpButton) {
+    signUpButton.addEventListener('click', () => {
+      container.classList.add("right-panel-active");
+    });
+  }
 
-  signInButton.addEventListener('click', () => {
-    container.classList.remove("right-panel-active");
-  });
+  if (signInButton) {
+    signInButton.addEventListener('click', () => {
+      container.classList.remove("right-panel-active");
+    });
+  }
 </script>
 
 </body>
