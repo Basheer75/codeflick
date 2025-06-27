@@ -1,0 +1,42 @@
+{% load static %}
+<!-- templates/translator/navbar.html -->
+
+<div class="navbar">
+  <div class="container">
+    <!-- Left: Logo + Name -->
+    <a href="{% url 'hero' %}" class="brand-logo">
+      <img src="{% static 'images/logo.png' %}" class="logo-icon" alt="CodeFlick Logo">
+      <span class="logo-text">CodeFlick</span>
+    </a>
+
+    <!-- Right: Nav Links -->
+    <div class="nav-links">
+      {% if request.path == '/' %}
+        <a href="{% url 'home' %}">🏠 Home</a>
+        <a href="{% url 'login' %}">🔐 Login</a>
+      {% else %}
+        {% if user.is_authenticated %}
+          <a href="{% url 'home' %}">🏠 Home</a>
+          <a href="{% url 'dashboard' %}">📊 Dashboard</a>
+          <a href="{% url 'history' %}">📂 History</a>
+          <a href="{% url 'profile' %}">👤 Profile</a>
+          <form action="{% url 'logout' %}" method="post" style="display: inline;">
+  <form action="{% url 'logout' %}" method="post" style="display: inline;">
+  {% csrf_token %}
+  <button type="submit" style="background: none; border: none; color: #00ffff; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 5px;">
+    <span>🔓</span> Logout
+  </button>
+</form>
+
+</form>
+
+
+        {% else %}
+          <a href="{% url 'home' %}">🏠 Home</a>
+          <a href="{% url 'login' %}">🔐 Login</a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+

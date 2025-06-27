@@ -1,0 +1,122 @@
+{% extends 'translator/base.html' %}
+{% load static %}
+
+{% block title %}Welcome to CodeFlick{% endblock %}
+
+{% block content %}
+<div class="hero-container">
+  <!-- LEFT TEXT -->
+  <div class="hero-text">
+    <h1>Flick Between Languages</h1>
+    <p class="subtitle">From Python to Java — in a flick.</p>
+    <p class="subtitle">Learn code. Translate better. Flick smarter.</p>
+    <div class="hero-buttons">
+      <a href="{% url 'signup' %}" class="start-btn">🚀 Get Started</a>
+      <a href="{% url 'login' %}" class="login-btn">🔐 Login</a>
+    </div>
+  </div>
+
+  <!-- RIGHT ANIMATION -->
+  <div class="hero-animation">
+    <div class="cube cube1"></div>
+    <div class="cube cube2"></div>
+    <div class="cube cube3"></div>
+    <div class="cube cube4"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+  .hero-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 120px 60px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-text {
+    flex: 1 1 50%;
+    padding-right: 20px;
+  }
+
+  .hero-text h1 {
+    font-size: 3rem;
+    color: #00ffff;
+  }
+
+  .hero-text .subtitle {
+    color: #ccc;
+    font-size: 1.2rem;
+  }
+
+  .hero-buttons {
+    margin-top: 30px;
+  }
+
+  .hero-buttons a {
+    display: inline-block;
+    margin-right: 15px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .start-btn {
+    background-color: #00ffff;
+    color: #1e1e2f;
+  }
+
+  .start-btn:hover {
+    background-color: #8a2be2;
+    color: white;
+  }
+
+  .login-btn {
+    background-color: transparent;
+    border: 2px solid #00ffff;
+    color: #00ffff;
+  }
+
+  .login-btn:hover {
+    background-color: #8a2be2;
+    border-color: #8a2be2;
+    color: white;
+  }
+
+  .hero-animation {
+    flex: 1 1 40%;
+    position: relative;
+    width: 100%;
+    height: 400px;
+    perspective: 800px;
+  }
+
+  .cube {
+    width: 60px;
+    height: 60px;
+    background: #00ffff55;
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00ffffaa;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .cube1 { top: 20%; left: 30%; animation-delay: 0s; }
+  .cube2 { top: 50%; left: 60%; animation-delay: 1.5s; }
+  .cube3 { top: 70%; left: 20%; animation-delay: 3s; }
+  .cube4 { top: 40%; left: 80%; animation-delay: 4.5s; }
+
+  @keyframes float {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(-30px) rotate(15deg); opacity: 0.7; }
+    100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  }
+</style>
+{% endblock %}
